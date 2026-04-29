@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graduate 15 Puzzle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="day">
+    <header>
+        <h1>15 Puzzle: Seasonal edition</h1>
+        <button id="toggle-theme">Toggle Night Mode</button>
+    </header>
+
+    <main>
+        <div id="game-container">
+            <section id="controls">
+                <button class="mode-btn" data-mode="bloom">Bloom</button>
+                <button class="mode-btn" data-mode="breeze">Breeze</button>
+                <button class="mode-btn" data-mode="sun">Sun</button>
+                <button id="shuffle-btn">Shuffle (360)</button>
+                <button id="magic-btn">Magic Hint (1 Left)</button>
+            </section>
+
+            <section id="stats">
+                <p>Moves: <span id="move-count">0</span> | Time: <span id="timer">0</span>s</p>
+            </section>
+
+            <div id="puzzle-board"></div>
+        </div>
+
+        <section id="analytics-section">
+            <h2>Performance Insights</h2>
+            <p>Runs: <span id="total-runs">0</span> | Avg Time: <span id="avg-time">0</span>s</p>
+            <p>Record: <span id="best-run">None</span></p>
+            <p>Popularity: <span id="mode-dist">No data</span></p>
+        </section>
+
+        <section id="leaderboard">
+            <h2>Leaderboard</h2>
+            <ul id="score-list"></ul>
+        </section>
+    </main>
+    <script src="puzzle.js"></script>
+</body>
+</html>
