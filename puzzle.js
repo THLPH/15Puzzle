@@ -240,6 +240,37 @@ class PuzzleEngine {
         this.moveElement.textContent = this.moves;
         this.timeElement.textContent = this.time;
     }
+    
+    async loadLeaderboard() {
+        try {
+            const response = await fetch('api/get_leaderboard.php');
+            const scores = await response.json();
+            this.renderLeaderboard(scores);
+            this.loadAnalytics(); // Refresh grad analytics too
+        } catch (error) {
+            const localScores = JSON.parse(localStorage.getItem('puzzleScores')) || [];
+            this.renderLeaderboard(localScores);
+        }
+    }
+
+    async loadAnalytics() {
+        try {
+            const response = await fetch('api/get_analytics.php');
+            const data = await response.json();
+            // Assuming you have elements with these IDs in your HTML
+            if(document.getElementById('avg-time')) {
+                document.getElementById('avg-time').textContent = data.avg_time + 's';
+                document.getElementById('total-runs').textContent = data.total_runs;
+            }
+        } catch (e) { console.error("Analytics fetch failed"); }
+    }
+
+    renderLeaderboard(scores) {
+        const list = document.getElementById('score-list');
+        list.innerHTML = scores.map(s => 
+            `<li>${s.player_name} - ${s.moves} moves (${s.time_seconds}s) [${s.mode}]</li>`
+        ).join('');
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
