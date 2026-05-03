@@ -40,23 +40,31 @@ class PuzzleEngine {
                 this.init();
             });
         });
+
+        document.getElementById('toggle-theme').addEventListener('click', () => {
+            const body = document.body;
+            const newTheme = body.getAttribute('data-theme') === 'day' ? 'night' : 'day';
+            body.setAttribute('data-theme', newTheme);
+            // Persistence: Save theme preference locally
+            localStorage.setItem('preferred-theme', newTheme);
+        });
     }
 
-renderBoard() {
+    renderBoard() {
         this.boardElement.innerHTML = '';
         this.board.forEach((val, index) => {
             const tile = document.createElement('div');
             tile.className = val === 0 ? 'tile empty-tile' : 'tile';
-            
+
             if (val !== 0) {
                 // Graduate Logic: Calculate background position for images
                 const row = Math.floor((val - 1) / this.size);
                 const col = (val - 1) % this.size;
-                
+
                 // 400x400px images
                 tile.style.backgroundImage = `url('assets/${this.currentMode}.jpg')`;
                 tile.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
-                
+
                 // Accessibility: Keep number as a hidden hint or small overlay
                 tile.innerHTML = `<span class="tile-number">${val}</span>`;
                 tile.addEventListener('click', () => this.handleTileClick(index));
@@ -288,6 +296,9 @@ renderBoard() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('preferred-theme') || 'day';
+    document.body.setAttribute('data-theme', savedTheme);
+    
     const game = new PuzzleEngine();
     game.loadLeaderboard();
 });
