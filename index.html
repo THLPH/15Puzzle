@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Graduate 15 Puzzle</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body data-theme="day">
     <header>
         <h1>15 Puzzle: Seasonal edition</h1>
@@ -36,6 +38,14 @@
             <p>Popularity: <span id="mode-dist">No data</span></p>
         </section>
 
+        <section id="graduate-analytics">
+            <h2>Performance Insights</h2>
+            <p>Total Completed Runs: <span id="total-runs">0</span></p>
+            <p>Average Solve Time: <span id="avg-time">0</span>s</p>
+            <p>Best Run: <span id="best-run">None yet</span></p>
+            <p>Mode Distribution: <span id="mode-dist">No data</span></p>
+        </section>
+
         <section id="leaderboard">
             <h2>Leaderboard</h2>
             <ul id="score-list"></ul>
@@ -43,4 +53,5 @@
     </main>
     <script src="puzzle.js"></script>
 </body>
+
 </html>
