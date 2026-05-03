@@ -1,0 +1,140 @@
+/* =========================================
+   VARIABLES (DAY & NIGHT MODES)
+   ========================================= */
+:root {
+    --bg-color: #f4f4f0;
+    --text-color: #121212;
+    --accent-color: #8b1c1c;
+    --secondary-text: #7a7a7a;
+    --border-style: 3px solid #121212;
+    --container-bg: #f4f4f0;
+    --header-bg: #121212;
+    --header-text: #f4f4f0;
+}
+
+[data-theme="night"] {
+    /* Night Mode overrides */
+    --bg-color: #121212;
+    --text-color: #f4f4f0;
+    --accent-color: #ff4d6d;
+    --secondary-text: #a0a0a0;
+    --border-style: 3px solid #f4f4f0;
+    --container-bg: #1a1a1a;
+    --header-bg: #f4f4f0;
+    --header-text: #121212;
+}
+
+/* =========================================
+   BASE STYLES
+   ========================================= */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* =========================================
+   CORE LAYOUT (TERMINAL)
+   ========================================= */
+.terminal-container, main {
+    width: 100%;
+    max-width: 600px;
+    border: var(--border-style);
+    background: var(--container-bg);
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+header, .header-cell {
+    background: var(--header-bg);
+    color: var(--header-text);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1, h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;
+}
+
+section, .content-cell {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-bottom: 2px dashed var(--text-color);
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+/* =========================================
+   TYPOGRAPHY
+   ========================================= */
+.sys-text, #stats, #analytics-section {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    color: var(--secondary-text);
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+p {
+    margin: 5px 0;
+}
+
+/* =========================================
+   BUTTONS & CONTROLS
+   ========================================= */
+button, .action-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: var(--border-style);
+    background: var(--container-bg);
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+button:hover, .action-btn:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #ffffff;
+}
+
+/* Small specific overrides */
+header button {
+    width: auto;
+    padding: 8px 15px;
+    font-size: 0.8rem;
+    margin: 0;
+    border-width: 2px;
+    background: var(--header-text);
+    color: var(--header-bg);
+}
+
+header button:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    color: #ffffff;
+}
