@@ -42,13 +42,23 @@ class PuzzleEngine {
         });
     }
 
-    renderBoard() {
+renderBoard() {
         this.boardElement.innerHTML = '';
         this.board.forEach((val, index) => {
             const tile = document.createElement('div');
             tile.className = val === 0 ? 'tile empty-tile' : 'tile';
-            tile.textContent = val !== 0 ? val : '';
+            
             if (val !== 0) {
+                // Graduate Logic: Calculate background position for images
+                const row = Math.floor((val - 1) / this.size);
+                const col = (val - 1) % this.size;
+                
+                // 400x400px images
+                tile.style.backgroundImage = `url('assets/${this.currentMode}.jpg')`;
+                tile.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+                
+                // Accessibility: Keep number as a hidden hint or small overlay
+                tile.innerHTML = `<span class="tile-number">${val}</span>`;
                 tile.addEventListener('click', () => this.handleTileClick(index));
             }
             this.boardElement.appendChild(tile);
