@@ -8,12 +8,12 @@ class PuzzleEngine {
         this.magicUses = 1;
         this.currentMode = 'bloom';
         this.isPlaying = false;
-        
+
         this.boardElement = document.getElementById('puzzle-board');
         this.moveElement = document.getElementById('move-count');
         this.timeElement = document.getElementById('timer');
         this.magicBtn = document.getElementById('magic-btn');
-        
+
         this.init();
         this.setupEventListeners();
     }
@@ -33,7 +33,7 @@ class PuzzleEngine {
         document.getElementById('shuffle-btn').addEventListener('click', () => this.shuffle(360));
         document.getElementById('reset-btn').addEventListener('click', () => this.init());
         this.magicBtn.addEventListener('click', () => this.useMagicHint());
-        
+
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.currentMode = e.target.dataset.mode;
@@ -57,7 +57,7 @@ class PuzzleEngine {
 
     handleTileClick(index) {
         if (!this.isPlaying) this.startTimer();
-        
+
         const emptyIndex = this.board.indexOf(0);
         if (this.isValidMove(index, emptyIndex)) {
             this.swap(index, emptyIndex);
@@ -74,8 +74,8 @@ class PuzzleEngine {
         const emptyRow = Math.floor(emptyIndex / this.size);
         const emptyCol = emptyIndex % this.size;
 
-        return (Math.abs(row - emptyRow) === 1 && col === emptyCol) || 
-               (Math.abs(col - emptyCol) === 1 && row === emptyRow);
+        return (Math.abs(row - emptyRow) === 1 && col === emptyCol) ||
+            (Math.abs(col - emptyCol) === 1 && row === emptyRow);
     }
 
     swap(i, j) {
@@ -98,7 +98,7 @@ class PuzzleEngine {
                 }
             }
         }
-        
+
         if (this.size % 2 !== 0) {
             return inversions % 2 === 0;
         } else {
@@ -112,7 +112,7 @@ class PuzzleEngine {
         for (let i = 0; i < depth; i++) {
             const emptyIndex = this.board.indexOf(0);
             const validNeighbors = [];
-            
+
             const row = Math.floor(emptyIndex / this.size);
             const col = emptyIndex % this.size;
 
@@ -123,7 +123,7 @@ class PuzzleEngine {
 
             const possibleMoves = validNeighbors.filter(n => n !== lastEmpty);
             const move = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-            
+
             this.swap(move, emptyIndex);
             lastEmpty = emptyIndex;
         }
@@ -139,7 +139,7 @@ class PuzzleEngine {
         if (this.magicUses <= 0 || !this.isPlaying) return;
         this.magicUses--;
         this.magicBtn.textContent = `Magic Hint (0 Left)`;
-        
+
         // Greedy Manhattan Distance evaluation for next best move
         const emptyIndex = this.board.indexOf(0);
         const validNeighbors = [];
@@ -175,12 +175,12 @@ class PuzzleEngine {
         for (let i = 0; i < this.board.length; i++) {
             const val = this.board[i];
             if (val === 0) continue;
-            
+
             const targetX = (val - 1) % this.size;
             const targetY = Math.floor((val - 1) / this.size);
             const currentX = i % this.size;
             const currentY = Math.floor(i / this.size);
-            
+
             distance += Math.abs(currentX - targetX) + Math.abs(currentY - targetY);
         }
         return distance;
@@ -240,7 +240,7 @@ class PuzzleEngine {
         this.moveElement.textContent = this.moves;
         this.timeElement.textContent = this.time;
     }
-    
+
     async loadLeaderboard() {
         try {
             const response = await fetch('api/get_leaderboard.php');
@@ -257,22 +257,27 @@ class PuzzleEngine {
         try {
             const response = await fetch('api/get_analytics.php');
             const data = await response.json();
-            // Assuming you have elements with these IDs in your HTML
-            if(document.getElementById('avg-time')) {
-                document.getElementById('avg-time').textContent = data.avg_time + 's';
+
+            if (document.getElementById('avg-time')) {
                 document.getElementById('total-runs').textContent = data.total_runs;
+                document.getElementById('avg-time').textContent = data.avg_time;
+                document.getElementById('best-run').textContent = data.best_run;
+
+                const modeString = data.modes.map(m => `${m.mode}: ${m.count}`).join(', ');
+                document.getElementById('mode-dist').textContent = modeString || 'No data';
             }
-        } catch (e) { console.error("Analytics fetch failed"); }
+        } catch (e) { console.error('Analytics fetch failed'); }
     }
 
     renderLeaderboard(scores) {
         const list = document.getElementById('score-list');
-        list.innerHTML = scores.map(s => 
+        list.innerHTML = scores.map(s =>
             `<li>${s.player_name} - ${s.moves} moves (${s.time_seconds}s) [${s.mode}]</li>`
         ).join('');
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new PuzzleEngine();
+    const game = new PuzzleEngine();
+    game.loadLeaderboard();
 });
