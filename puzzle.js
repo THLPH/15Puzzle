@@ -74,7 +74,10 @@ class PuzzleEngine {
     }
 
     handleTileClick(index) {
-        if (!this.isPlaying) this.startTimer();
+        if (!this.isPlaying) {
+            this.isPlaying = true; // Add this line!
+            this.startTimer();
+        }
 
         const emptyIndex = this.board.indexOf(0);
         if (this.isValidMove(index, emptyIndex)) {
@@ -156,7 +159,7 @@ class PuzzleEngine {
     useMagicHint() {
         if (this.magicUses <= 0 || !this.isPlaying) return;
         this.magicUses--;
-        this.magicBtn.textContent = `Hint (0 Left)`;
+        this.updateUI();
 
         // Greedy Manhattan Distance evaluation for next best move
         const emptyIndex = this.board.indexOf(0);
@@ -257,6 +260,8 @@ class PuzzleEngine {
     updateUI() {
         this.moveElement.textContent = this.moves;
         this.timeElement.textContent = this.time;
+	this.magicBtn.textContent = `Hint (${this.magicUses} Left)`;
+	this.magicBtn.disabled = (this.magicUses <= 0);
     }
 
     async loadLeaderboard() {
