@@ -190,6 +190,13 @@ button { font-family: inherit; cursor: pointer; transition: 0.2s ease; border: n
 
 .action-btn:hover { background: var(--accent-color); color: #fff; }
 
+.action-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    border: 2px dashed var(--text-color);
+    pointer-events: none;
+}
+
 .outline-btn {
     background: transparent;
     color: var(--text-color);
