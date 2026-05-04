@@ -156,7 +156,7 @@ class PuzzleEngine {
     useMagicHint() {
         if (this.magicUses <= 0 || !this.isPlaying) return;
         this.magicUses--;
-        this.magicBtn.textContent = `Magic Hint (0 Left)`;
+        this.magicBtn.textContent = `Hint (0 Left)`;
 
         // Greedy Manhattan Distance evaluation for next best move
         const emptyIndex = this.board.indexOf(0);
