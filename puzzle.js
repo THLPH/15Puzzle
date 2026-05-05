@@ -36,6 +36,9 @@ class PuzzleEngine {
 
         document.querySelectorAll('.mode-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+
                 this.currentMode = e.target.dataset.mode;
                 this.init();
             });
@@ -75,7 +78,7 @@ class PuzzleEngine {
 
     handleTileClick(index) {
         if (!this.isPlaying) {
-            this.isPlaying = true; // Add this line!
+            this.isPlaying = true;
             this.startTimer();
         }
 
@@ -260,8 +263,8 @@ class PuzzleEngine {
     updateUI() {
         this.moveElement.textContent = this.moves;
         this.timeElement.textContent = this.time;
-	this.magicBtn.textContent = `Hint (${this.magicUses} Left)`;
-	this.magicBtn.disabled = (this.magicUses <= 0);
+        this.magicBtn.textContent = `Hint (${this.magicUses} Left)`;
+        this.magicBtn.disabled = (this.magicUses <= 0);
     }
 
     async loadLeaderboard() {
@@ -303,7 +306,7 @@ class PuzzleEngine {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('preferred-theme') || 'day';
     document.body.setAttribute('data-theme', savedTheme);
-    
+
     const game = new PuzzleEngine();
     game.loadLeaderboard();
 });
