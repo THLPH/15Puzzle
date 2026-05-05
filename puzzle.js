@@ -19,11 +19,22 @@ class PuzzleEngine {
     }
 
     init() {
-        this.board = Array.from({ length: this.size * this.size }, (_, i) => i === 15 ? 0 : i + 1);
+        this.board = Array.from({
+            length: this.size * this.size
+        }, (_, i) => i === 15 ? 0 : i + 1);
         this.moves = 0;
         this.time = 0;
         this.magicUses = 1;
         this.isPlaying = false;
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            if (btn.dataset.mode === this.currentMode) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
         this.updateUI();
         this.renderBoard();
         this.stopTimer();
@@ -35,12 +46,12 @@ class PuzzleEngine {
         this.magicBtn.addEventListener('click', () => this.useMagicHint());
 
         document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                this.currentMode = e.target.dataset.mode;
+            btn.addEventListener('click', () => {
+                this.currentMode = btn.dataset.mode;
                 this.init();
             });
         });
-
+        
         document.getElementById('toggle-theme').addEventListener('click', () => {
             const body = document.body;
             const newTheme = body.getAttribute('data-theme') === 'day' ? 'night' : 'day';
@@ -75,7 +86,7 @@ class PuzzleEngine {
 
     handleTileClick(index) {
         if (!this.isPlaying) {
-            this.isPlaying = true; // Add this line!
+            this.isPlaying = true;
             this.startTimer();
         }
 
@@ -260,8 +271,8 @@ class PuzzleEngine {
     updateUI() {
         this.moveElement.textContent = this.moves;
         this.timeElement.textContent = this.time;
-	this.magicBtn.textContent = `Hint (${this.magicUses} Left)`;
-	this.magicBtn.disabled = (this.magicUses <= 0);
+        this.magicBtn.textContent = `Hint (${this.magicUses} Left)`;
+        this.magicBtn.disabled = (this.magicUses <= 0);
     }
 
     async loadLeaderboard() {
@@ -303,7 +314,7 @@ class PuzzleEngine {
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('preferred-theme') || 'day';
     document.body.setAttribute('data-theme', savedTheme);
-    
+
     const game = new PuzzleEngine();
     game.loadLeaderboard();
 });
