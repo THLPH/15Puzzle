@@ -19,11 +19,22 @@ class PuzzleEngine {
     }
 
     init() {
-        this.board = Array.from({ length: this.size * this.size }, (_, i) => i === 15 ? 0 : i + 1);
+        this.board = Array.from({
+            length: this.size * this.size
+        }, (_, i) => i === 15 ? 0 : i + 1);
         this.moves = 0;
         this.time = 0;
         this.magicUses = 1;
         this.isPlaying = false;
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            if (btn.dataset.mode === this.currentMode) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
         this.updateUI();
         this.renderBoard();
         this.stopTimer();
@@ -35,15 +46,12 @@ class PuzzleEngine {
         this.magicBtn.addEventListener('click', () => this.useMagicHint());
 
         document.querySelectorAll('.mode-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-
-                this.currentMode = e.target.dataset.mode;
+            btn.addEventListener('click', () => {
+                this.currentMode = btn.dataset.mode;
                 this.init();
             });
         });
-
+        
         document.getElementById('toggle-theme').addEventListener('click', () => {
             const body = document.body;
             const newTheme = body.getAttribute('data-theme') === 'day' ? 'night' : 'day';
